@@ -157,6 +157,22 @@ class TestNodeFunctions(unittest.TestCase):
             ],
             new_nodes,
         )
+
+    def test_split_images_text_at_end(self):
+        node = TextNode(
+            "![image1](https://link1.png)![image2](https://link2.png) some text",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("image1", TextType.IMAGE, "https://link1.png"),
+                TextNode("image2", TextType.IMAGE, "https://link2.png"),
+                TextNode(" some text", TextType.TEXT)
+            ],
+            new_nodes,
+        )
+
     def test_split_image_no_images(self):
         node = TextNode("just some text", TextType.TEXT)
         new_nodes = split_nodes_image([node])
