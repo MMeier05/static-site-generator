@@ -15,23 +15,6 @@ class TextNode:
     def __repr__(self) -> str:
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
 
-def text_node_to_html_node(text_node: TextNode) -> LeafNode:
-    match text_node.text_type:
-        case TextType.TEXT:
-            return LeafNode(None, text_node.text, None)
-        case TextType.BOLD:
-            return LeafNode("b", text_node.text, None)
-        case TextType.ITALIC:
-            return LeafNode("i", text_node.text, None)
-        case TextType.CODE:
-            return LeafNode("code", text_node.text, None)
-        case TextType.LINK:
-            return LeafNode("a", text_node.text, None)
-        case TextType.IMAGE:
-            return LeafNode("img", text_node.text, None)
-        case _:
-            raise Exception("Not a valid type")
-
 class TextType(Enum):
     TEXT = "plain"
     BOLD = "bold"
