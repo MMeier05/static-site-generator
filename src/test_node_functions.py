@@ -9,7 +9,7 @@ from node_functions import (
     split_nodes_link,
     split_nodes_image,
     text_to_textnodes,
-    )
+)
 
 class TestNodeFunctions(unittest.TestCase):
     #Testing text_node_to_html_node
@@ -279,6 +279,7 @@ class TestNodeFunctions(unittest.TestCase):
             ],
             new_nodes,
         )
+
     def test_text_to_textnodes_no_text(self):
         text = "**This is a lot of bold text**_italic words_"
         new_nodes = text_to_textnodes(text)
@@ -289,11 +290,11 @@ class TestNodeFunctions(unittest.TestCase):
             ],
             new_nodes,
         )
+
     def test_text_to_textnodes_empty_string(self):
         text = ""
         new_nodes = text_to_textnodes(text)
         self.assertListEqual([], new_nodes)
-
 
 if __name__ == "__main__":
     unittest.main()
