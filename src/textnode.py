@@ -1,5 +1,5 @@
 from enum import Enum
-from leafnode import LeafNode
+from htmlnode import LeafNode
 
 class TextNode:
     def __init__(self, text: str, text_type: TextType, url: str | None = None) -> None:

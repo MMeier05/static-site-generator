@@ -1,5 +1,5 @@
 from textnode import TextNode, TextType
-from leafnode import LeafNode
+from htmlnode import LeafNode
 import re
 
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
@@ -13,9 +13,13 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
         case TextType.CODE:
             return LeafNode("code", text_node.text, None)
         case TextType.LINK:
-            return LeafNode("a", text_node.text, None)
+            if text_node.url is None:
+                raise ValueError("invalid URL")
+            return LeafNode("a", text_node.text, {"href": text_node.url})
         case TextType.IMAGE:
-            return LeafNode("img", text_node.text, None)
+            if text_node.url is None:
+                raise ValueError("invalid URL")
+            return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
         case _:
             raise Exception("Not a valid type")
 
@@ -91,4 +95,10 @@ def extract_markdown_links(text: str) -> list[tuple]:
     return list(zip(alt_text, link))
 
 def text_to_textnodes(text: str) -> list[TextNode]:
-    pass
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
