@@ -110,8 +110,12 @@ def paragraph_block_to_nodes(block: str) -> ParentNode:
 
 def heading_block_to_nodes(block: str) -> ParentNode:
     hashtag_cnt = block.count('#', 0, 6)
-    child = LeafNode("h"+ str(hashtag_cnt), block.strip("#"*hashtag_cnt + " "))
-    return child
+    text = block.strip("#"*hashtag_cnt + " ")
+    nodes = text_to_textnodes(text)
+    children = []
+    for node in nodes:
+        children.append(text_node_to_html_node(node))
+    return ParentNode("h"+ str(hashtag_cnt), children)
 
 def markdown_to_html_node(markdown: str) -> ParentNode:
     md_blocks = markdown_to_blocks(markdown)
